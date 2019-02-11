@@ -1,0 +1,10 @@
+	According to the function of generating Wi-Fi packet, it takes 5 steps to generate a Wi-Fi packet. In general, my idea is: first solve the first level, then transform second level output. The signal is restored to the output of the first level, and the latter level is deduced by analogy.It's kind of like recursive.So level1 becomes critical.
+
+	level1: At this stage, the most important part is convolutional coding.Although at level1, function transmitter also adds other redundancy to the bits but we can restore it according to the way that transmitter uses. I used Viterbi algorithm to decode, of course I used same trellis structure that the convolutional coding used.After we have the original bits we can transform bits to string by ascii code table. 
+
+	Level2: At this level, we need to restore the permuted bits to output which level1  generates.Column vector Interleave just changes the order of these bits without change their values.So my idea is that since vector Interleave can permutes the bits, then after looping, it can definitely restore the permuted bits to their original order.Since we have already decoded level1 ,now what we need to do is call function wefireceiver with level equals 1.
+
+	level3:This part is pretty straight-forward because preamble is fixed.First we can remove preamble part and then restore bits according to modulation process.Similarly we call function wifireceiver with level equals 2 and level2 will process the bits.
+
+	level4:At this level, wifitransmitter do FFT to create OFDM packets,so I use ifft to reverse the bits.
+	
